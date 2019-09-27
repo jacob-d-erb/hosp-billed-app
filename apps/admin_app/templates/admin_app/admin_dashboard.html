@@ -37,6 +37,7 @@
                 <p> The DRG database must be instantiated before any hospitals can be added. Upload
                     a two column CSV file: the first column should contain a zero-padded three digit
                     MS DRG code, and the second should contain the description for that DRG.</p>
+                <p class="admin_warning"> WARNING: UPDATING THE DRG DEFINITIONS WILL REQUIRE RELOADING ALL HOSPITAL FILES.</p>
                 <form action="{% url 'update_drg_route' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="label_class"><label for="drg_definition" >Update DRG Definition: </label></div><!--

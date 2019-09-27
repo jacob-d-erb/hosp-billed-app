@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Hospital Billed Charges Comparison</title>
+        <title>Single Hospital Summary</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
         {% load static %}
@@ -13,7 +13,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="Hospital comparison - comparison of average billed charges by MS DRG.">
+        <meta name="description" content="Analysis of multiple DRGs for a single hospital.">
         <meta name="keywords" content="Hospitals, Billed Charges, Price Transparency, CMS">
         <meta name="author" content="Jacob Erb">
     </head>
@@ -62,58 +62,22 @@
                         </form>
                     </div>
                 </nav>
-                <div class="page_title">Hospital Comparison</div>
-                <div class="page_intro">
-                    Select up to five hospitals with the inputs below. Then select a DRG to compare the billed costs across the 
-                    selected hospitals. If no charges display for a particular hospital/DRG combination, this generally indicates
-                    that there was not enough data in the hospital's 2018 experience to support a meaningful average.
-                </div>
-                <form action="{% url 'comparison_route' %}" method="POST" id="comp_gen">
-                    {% csrf_token %}
-                    <div class="label_class"><label for="hosp1_input">Hospital 1: </label></div><!--
-                    --><select id="hosp1_input" name="hosp1_input" class="input_class">
-                            <option value="">Select a hospital</option>
-                        {% for hospital in list_hosp %}
-                            <option value={{hospital.id}}>{{hospital.name}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="hosp2_input">Hospital 2: </label></div><!--
-                    --><select id="hosp2_input" name="hosp2_input" class="input_class">
-                            <option value="">Select a hospital</option>
-                        {% for hospital in list_hosp %}
-                            <option value={{hospital.id}}>{{hospital.name}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="hosp3_input">Hospital 3: </label></div><!--
-                    --><select id="hosp3_input" name="hosp3_input" class="input_class">
-                            <option value="">Select a hospital</option>
-                        {% for hospital in list_hosp %}
-                            <option value={{hospital.id}}>{{hospital.name}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="hosp4_input">Hospital 4: </label></div><!--
-                    --><select id="hosp4_input" name="hosp4_input" class="input_class">
-                            <option value="">Select a hospital</option>
-                        {% for hospital in list_hosp %}
-                            <option value={{hospital.id}}>{{hospital.name}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="hosp5_input">Hospital 5: </label></div><!--
-                    --><select id="hosp5_input" name="hosp5_input" class="input_class">
-                            <option value="">Select a hospital</option>
-                        {% for hospital in list_hosp %}
-                            <option value={{hospital.id}}>{{hospital.name}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="drg_input">Select a Diagnosis Grouping: </label></div><!--
-                    --><select id="drg_input" name="drg_input" class="input_class">
-                            <option value="">Select a Diagnosis Grouping</option>
-                        {% for drg in drg_list %}
-                            <option value={{drg.id}}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
-                        {% endfor %}
-                    </select>
-                </form>
-                <div class="graph_container">
+                <div class="page_title">About the Data</div>
+                <div class="page_about">
+                    <p>Prior to 2019, hospital chargemasters - a master list of prices the hospital bills for each service - were generally 
+                    closely held, and used primarily for negotiating effective payment rates (also called "allowed" charges) with insurance
+                    carriers. Typically the only circumstances in which a patient directly interacts with these chargemasters is if they 
+                    were both uninsured and wealthy, or if they wished to pay in cash. Otherwise, patient payments are routed through an
+                    insurance carrier, which itself pays the discounted allowed charges.</p>
+                    <p>Effective January 2019, CMS now requires Hospitals to post their chargemasters online, along with "standard" charges billed
+                    for each MS-DRG. This change was made in order to make an incremental step towards price transpareny in an effort to contain
+                    rising medical costs. As of September 2019, there are as yet no specific guidelines for the format of the uploaded data,
+                    nor the fields to include.</p>
+                    <p>This site is an effort to centralize the data available into a single platform, and further the push towards pricing transparency. </p>
+                    <p>NOTE: The charges represented on this site are BILLED charges, which often do not represent the actual out-of-pocket cost for patients.
+                    These prices are typically only applicable in cases where the patient is uninsured or wishes to pay in cash rather than use insurance. Even
+                    in those cases, hospitals are often willing to negotiate discounted pricing in case of inability to pay. Contact your insurance provider
+                    if you are seeking to determine your out-of-pocket cost.</p>
                 </div>
             </div>
             <!-- Overlay -->
@@ -149,18 +113,6 @@
                     $('.overlay').addClass('active');
                 });
             });
-
-            $('#comp_gen').change(function(event){
-                event.preventDefault()
-                $.ajax({
-                    url: "/gencomparison",
-                    method: "post",
-                    data: $(this).serialize(),
-                    success: function(serverResponse){
-                        $('.graph_container').html(serverResponse)
-                    }
-                })
-            })
             
             // Add the seletion update logic when we have time.
         </script>

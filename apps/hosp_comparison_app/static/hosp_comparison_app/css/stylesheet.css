@@ -161,6 +161,16 @@ a, a:hover, a:focus {
         color: rgb(100,100,100);
     }
 
+    .page_about {
+        text-align: left;
+        width: 70%;
+        margin: 2% 15% 2% 15%;
+        font-size: 18px;
+        vertical-align: top;
+        display: inline-block;
+        color: rgb(100,100,100);
+    }
+
     .dash_sect {
         border-top: solid 1px rgb(230,230,230);
         margin: 20px 0px 0px 0px;

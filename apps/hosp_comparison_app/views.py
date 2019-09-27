@@ -67,5 +67,8 @@ def spec_hosp_route(request):
     }
     return render(request, "hosp_comparison_app/single_hosp_chart.html", context)
 
-def spec_drg_link(request):
-    return render(request, "hosp_comparison_app/comparison.html")
+def about_link(request):
+    return render(request, "hosp_comparison_app/about.html")
+
+# def spec_drg_link(request):
+#     return render(request, "hosp_comparison_app/comparison.html")
