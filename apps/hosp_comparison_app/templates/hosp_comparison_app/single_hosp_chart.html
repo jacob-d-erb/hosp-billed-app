@@ -1,0 +1,45 @@
+
+<canvas id="bar-chart" width="800" height="450"></canvas>
+<ul>
+    Billed charges for {{current_hosp.name}} originally published at {{current_hosp.source}}
+</ul>
+<script type="text/javascript">
+    new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+            labels: {{label_array|safe}},
+            datasets: [
+                {
+                    label: "Average Medicare Billed Charges for {{current_hosp.name|safe}}",
+                    backgroundColor: "#3e95cd",
+                    data: {{hosp_data_array|safe}}
+                }, {
+                    label: "Average Medicare Billed Charges for {{current_hosp.state|safe}}",
+                    backgroundColor: "#6E6E6E",
+                    data: {{avg_data_array|safe}}
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Single Hospital Breakdown - {{current_hosp.name|safe}}",
+                fontSize: 20,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function(value, index, values) {
+                            if(parseInt(value) >= 1000){
+                                return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else {
+                            return '$' + value;
+                            }
+                        }
+                    }
+                }]
+            }
+        }
+    });
+</script>

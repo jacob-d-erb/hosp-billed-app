@@ -1,0 +1,43 @@
+
+<canvas id="bar-chart" width="800" height="450"></canvas>
+<ul>
+    Data sources are listed below by hospital.
+    {% for hospital in hospital_array %}
+        <li> {{hospital.name}}:  {{hospital.source}}</li>
+    {% endfor %}
+</ul>
+<script type="text/javascript">
+    new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+            labels: {{label_array|safe}},
+            datasets: [{
+                label: "Average charges billed to Medicare",
+                backgroundColor: {{color_array|safe}},
+                data: {{data_array|safe}}
+            }]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Billed charges for MS DRG {{current_drg.ms_drg|safe}}",
+                fontSize: 20,
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function(value, index, values) {
+                            if(parseInt(value) >= 1000){
+                                return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            } else {
+                            return '$' + value;
+                            }
+                        }
+                    }
+                }]
+            }
+        }
+    });
+</script>

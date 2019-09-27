@@ -1,0 +1,77 @@
+
+/* Admin Content */
+
+.logout_row {
+    text-align: right;
+    padding: 0% 5% 0% 0%;
+    font-size: 25px;
+}
+
+.page_title {
+    text-align: center;
+    width: 70%;
+    margin: 0% 15% 2% 15%;
+    font-size: 80px;
+    vertical-align: top;
+    display: inline-block;
+    color: rgb(100,100,100);
+    text-shadow: 5px 5px rgb(200,200,200);
+}
+
+.welcome_message {
+    text-align: center;
+    width: 70%;
+    margin: 0% 15% 2% 15%;
+    font-size: 40px;
+    color: rgb(100,100,100);
+}
+
+.dash_sect {
+    border-top: solid 1px rgb(230,230,230);
+    margin: 20px 0px 0px 0px;
+    padding: 10px 0px 0px 0px;
+}
+
+    .messages {
+        width: 50%;
+        margin: 0% auto;
+    }
+    
+        .error_message {
+            color: rgb(80,0,0);
+            font-size: 15px;
+        }
+
+    .gray_subheaders {
+        color: rgb(100,100,100);
+    }
+
+    .label_class {
+        text-align: right;
+        width: 30%;
+        margin: 0% 5% 0% 10%;
+        font-size: 15px;
+        color: rgb(100,100,100);
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .input_class {
+        text-align: left;
+        font-size: 15px;
+        display: inline-block;
+        vertical-align: top;
+        margin: 0% 25% 0% 0%;
+        width: 30%;
+    }
+
+    .choose_file_class {
+        font-size: 15px;
+    }
+
+    .submit_class {
+        display:block;
+        margin: 0% 0% 0% 45%;
+        font-size: 15px;
+        width: 92px;
+    }

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Single Hospital Summary</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'hosp_comparison_app/css/stylesheet.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="Analysis of multiple DRGs for a single hospital.">
+        <meta name="keywords" content="Hospitals, Billed Charges, Price Transparency, CMS">
+        <meta name="author" content="Jacob Erb">
+    </head>
+    <body>
+        <div class="wrapper">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="active">
+                <div id="dismiss">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+                
+                <div class="sidebar-header">
+                    <h3>Navigation</h3>
+                </div>
+
+                <ul class="list-unstyled components">
+                    <p>ANALYSIS TYPES</p>
+                    <li class="active">
+                        <a href="{% url 'comparison_link' %}">Hospital Comparison</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'spec_hosp_link' %}">Single Hospital Summary</a>
+                    </li>
+                    <li>
+                        <a href="#">Single DRG Summary</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        
+            <!-- Page Content -->
+            <div id="content">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <button type="button" id="sidebarCollapse" class="btn btn_gray">
+                            <i class="fas fa-align-left"></i>
+                            <span>Open Sidebar</span>
+                        </button>
+                        <form action="{% url 'login_route' %}" method="POST" class="admin_form">
+                            {% csrf_token %}
+                            <input id="admin_email" name="admin_email_input" class="admin_login_input" type="text" placeholder="Admin Login"/><!--
+                            --><input id="admin_password" name="admin_password_input" class="admin_login_input" type="password" placeholder="Password"/><!--
+                            --><input type="submit" class="admin_submit" value="Login">
+                        </form>
+                    </div>
+                </nav>
+                <div class="page_title">Single Hospital Analysis</div>
+                <div class="page_intro">
+                    Select up to five drgs with the inputs below. Then select a hospital to compare against the regional average.
+                    If no charges display for a particular hospital/DRG combination, this generally indicates
+                    that there was not enough data in the hospital's 2018 experience to support a meaningful average. The form is prepulated
+                    with the most commonly billed DRGs.
+                </div>
+                <form action="{% url 'spec_hosp_route' %}" method="POST" id="sh_gen">
+                    {% csrf_token %}
+                    <div class="label_class"><label for="drg1_input">Diagnosis Grouping 1: </label></div><!--
+                    --><select id="drg1_input" name="drg1_input" class="input_class">
+                        <option value="">Select a Diagnosis Grouping</option>
+                        {% for drg in drg_list %}
+                            <option value={{drg.id}} {% if drg.ms_drg == "885" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="label_class"><label for="drg2_input">Diagnosis Grouping 2: </label></div><!--
+                    --><select id="drg2_input" name="drg2_input" class="input_class">
+                        <option value="">Select a Diagnosis Grouping</option>
+                        {% for drg in drg_list %}
+                            <option value={{drg.id}} {% if drg.ms_drg == "795" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="label_class"><label for="drg3_input">Diagnosis Grouping 3: </label></div><!--
+                    --><select id="drg3_input" name="drg3_input" class="input_class">
+                        <option value="">Select a Diagnosis Grouping</option>
+                        {% for drg in drg_list %}
+                            <option value={{drg.id}} {% if drg.ms_drg == "871" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="label_class"><label for="drg4_input">Diagnosis Grouping 4: </label></div><!--
+                    --><select id="drg4_input" name="drg4_input" class="input_class">
+                        <option value="">Select a Diagnosis Grouping</option>
+                        {% for drg in drg_list %}
+                            <option value={{drg.id}} {% if drg.ms_drg == "470" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="label_class"><label for="drg5_input">Diagnosis Grouping 5: </label></div><!--
+                    --><select id="drg5_input" name="drg5_input" class="input_class">
+                        <option value="">Select a Diagnosis Grouping</option>
+                        {% for drg in drg_list %}
+                            <option value={{drg.id}} {% if drg.ms_drg == "291" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="label_class"><label for="hosp_input">Select a Hospital: </label></div><!--
+                    --><select id="hosp_input" name="hosp_input" class="input_class">
+                            <option value="">Select a hospital</option>
+                        {% for hospital in list_hosp %}
+                            <option value={{hospital.id}}>{{hospital.name}}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+                <div class="graph_container">
+                </div>
+            </div>
+            <!-- Overlay -->
+            <div class="overlay"></div>
+        </div>
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+        <!-- Popper.JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+        <!-- Click function. -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#sidebar").mCustomScrollbar({
+                    theme: "minimal"
+                });
+        
+                $("#dismiss").on('click', function () {
+                    // hide sidebar
+                    $('#sidebar').addClass('active');
+                    // hide overlay
+                    $('.overlay').removeClass('active');
+                });
+        
+                $('#sidebarCollapse').on('click', function () {
+                    // open sidebar
+                    $('#sidebar').removeClass('active');
+                    // fade in the overlay
+                    $('.overlay').addClass('active');
+                });
+            });
+
+            $('#sh_gen').change(function(event){
+                event.preventDefault()
+                $.ajax({
+                    url: "/genspecific",
+                    method: "post",
+                    data: $(this).serialize(),
+                    success: function(serverResponse){
+                        $('.graph_container').html(serverResponse)
+                    }
+                })
+            })
+            
+            // Add the seletion update logic when we have time.
+        </script>
+    </body>
+</html>
