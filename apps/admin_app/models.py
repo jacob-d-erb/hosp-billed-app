@@ -22,14 +22,19 @@ class UserManager(models.Manager):
 
 class HospitalManager(models.Manager):
 
-    def hospital_validator(self, postData, csv_file):
+    def hospital_validator(self, postData, text_file):
         errors = {}
 
-        if not csv_file.name.endswith('.csv'):
-            errors["csv_file"] = "File is not CSV type."
+        if not text_file.name.endswith('.txt'):
+            errors["text_file"] = "File is not a Text file."
 
         if len(postData["hosp_name_input"]) < 3:
             errors["hosp_name"] = "Please enter a hospital name."
+        
+        if len(postData["hosp_bed_input"]) == 0:
+            errors["hosp_bed"] = "Please enter the number of beds in the hospital."
+        elif float(postData["hosp_bed_input"]) < 0:
+            errors["hosp_bed"] = "Please enter a nonnegative number of beds."
         
         try:
             if float(postData["hosp_long_input"]) < -180 or float(postData["hosp_long_input"]) > 180:
@@ -69,11 +74,13 @@ class DRG(models.Model):
 
 class Hospital(models.Model):
     name = models.CharField(max_length=255)
+    beds = models.IntegerField()
     drgs = models.ManyToManyField(DRG, through="HospitalDRG",related_name="coding_hospitals")
     longitude = models.FloatField()
     latitude = models.FloatField()
     source = models.CharField(max_length=255)
     state = models.CharField(max_length=50)
+    comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = HospitalManager()
@@ -82,5 +89,6 @@ class HospitalDRG(models.Model):
     hospital_id = models.ForeignKey(Hospital, on_delete=models.CASCADE)
     drg_id = models.ForeignKey(DRG, on_delete=models.CASCADE)
     avg_allowed_charge = models.FloatField()
+    cases = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

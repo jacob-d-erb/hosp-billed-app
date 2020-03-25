@@ -6,15 +6,39 @@
         <li> {{hospital.name}}:  {{hospital.source}}</li>
     {% endfor %}
 </ul>
+<ul>
+    {% if any_notes_flag == 1 %}
+        Data considerations:
+        {% for hospital in hospital_array %}
+            {% if hospital.comment != "" %}
+                <li> {{hospital.comment}} </li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</ul>
+
+{{ cases_array|json_script:"cases_array" }}
+{{ label_array|json_script:"label_array" }}
+{{ color_array|json_script:"color_array" }}
+{{ data_array|json_script:"data_array" }}
+
 <script type="text/javascript">
+
+    var cases_array = JSON.parse(document.getElementById('cases_array').textContent);
+    var label_array = JSON.parse(document.getElementById('label_array').textContent);
+    var color_array = JSON.parse(document.getElementById('color_array').textContent);
+    var data_array = JSON.parse(document.getElementById('data_array').textContent);
+    
     new Chart(document.getElementById("bar-chart"), {
+
         type: 'bar',
+
         data: {
-            labels: {{label_array|safe}},
+            labels: label_array,
             datasets: [{
-                label: "Average charges billed to Medicare",
-                backgroundColor: {{color_array|safe}},
-                data: {{data_array|safe}}
+                label: "Average Billed Charges",
+                backgroundColor: color_array,
+                data: data_array,
             }]
         },
         options: {
@@ -37,6 +61,19 @@
                         }
                     }
                 }]
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        return "Average Billed Charge: $" + Math.round(tooltipItem.yLabel).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    },
+                    footer: function(tooltipItem){
+                        if(cases_array[tooltipItem[0]['index']] > 0){
+                            return "Based on " + cases_array[tooltipItem[0]['index']] + " cases.";
+                        }
+                        return "Case data unavailable. See note below.";
+                    }
+                }
             }
         }
     });

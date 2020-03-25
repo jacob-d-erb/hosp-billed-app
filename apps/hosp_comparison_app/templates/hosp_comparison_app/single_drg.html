@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Single Hospital Summary</title>
+        <title>Single DRG Summary</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
         {% load static %}
@@ -10,17 +10,16 @@
         
         <script src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
         <script src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="{% static 'hosp_comparison_app/js/single_hosp.js' %}" defer></script>
+        <script src="{% static 'hosp_comparison_app/js/single_drg.js' %}" defer></script>
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="Analysis of multiple DRGs for a single hospital.">
+        <meta name="description" content="Generates a map showing costs for a selected DRG across the state.">
         <meta name="keywords" content="Hospitals, Billed Charges, Price Transparency, CMS">
         <meta name="author" content="Jacob Erb">
     </head>
@@ -72,55 +71,17 @@
                         </form>
                     </div>
                 </nav>
-                <div class="page_title">Single Hospital Analysis</div>
+                <div class="page_title">Single DRG Analysis</div>
                 <div class="page_intro">
-                    Select up to five drgs with the inputs below. Then select a hospital to compare against the regional average.
-                    If no charges display for a particular hospital/DRG combination, this generally indicates
-                    that there was not enough data in the hospital's 2019 experience to support a meaningful average. The form is prepopulated
-                    with the most commonly billed DRGs.
+                    Select a DRG to get an overview of the billed costs throughout the state.
                 </div>
-                <form action="{% url 'spec_hosp_route' %}" method="POST" id="sh_gen">
+                <form action="{% url 'spec_drg_route' %}" method="POST" id="sd_gen">
                     {% csrf_token %}
-                    <div class="label_class"><label for="drg1_input">Diagnosis Grouping 1: </label></div><!--
-                    --><select id="drg1_input" name="drg1_input" class="input_class">
+                    <div class="label_class"><label for="drg_input">Diagnosis Grouping: </label></div><!--
+                    --><select id="drg_input" name="drg_input" class="input_class">
                         <option value="">Select a Diagnosis Grouping</option>
-                        {% for drg in DRG_list %}
-                            <option value={{drg.id}} {% if drg.ms_drg == "885" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="drg2_input">Diagnosis Grouping 2: </label></div><!--
-                    --><select id="drg2_input" name="drg2_input" class="input_class">
-                        <option value="">Select a Diagnosis Grouping</option>
-                        {% for drg in DRG_list %}
-                            <option value={{drg.id}} {% if drg.ms_drg == "795" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="drg3_input">Diagnosis Grouping 3: </label></div><!--
-                    --><select id="drg3_input" name="drg3_input" class="input_class">
-                        <option value="">Select a Diagnosis Grouping</option>
-                        {% for drg in DRG_list %}
-                            <option value={{drg.id}} {% if drg.ms_drg == "871" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="drg4_input">Diagnosis Grouping 4: </label></div><!--
-                    --><select id="drg4_input" name="drg4_input" class="input_class">
-                        <option value="">Select a Diagnosis Grouping</option>
-                        {% for drg in DRG_list %}
-                            <option value={{drg.id}} {% if drg.ms_drg == "470" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="drg5_input">Diagnosis Grouping 5: </label></div><!--
-                    --><select id="drg5_input" name="drg5_input" class="input_class">
-                        <option value="">Select a Diagnosis Grouping</option>
-                        {% for drg in DRG_list %}
-                            <option value={{drg.id}} {% if drg.ms_drg == "291" %} selected {% endif %}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
-                        {% endfor %}
-                    </select>
-                    <div class="label_class"><label for="hosp_input">Select a Hospital: </label></div><!--
-                    --><select id="hosp_input" name="hosp_input" class="input_class">
-                            <option value="">Select a hospital</option>
-                        {% for hospital in list_hosp %}
-                            <option value={{hospital.id}}>{{hospital.name}}</option>
+                        {% for drg in drg_list %}
+                            <option value={{drg.id}}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
                         {% endfor %}
                     </select>
                 </form>
@@ -130,10 +91,5 @@
             <!-- Overlay -->
             <div class="overlay"></div>
         </div>
-
-        {{ DRG_name_array|json_script:"DRG_name_array" }};
-        {{ DRG_description_array|json_script:"DRG_description_array" }};
-        {{ DRG_id_array|json_script:"DRG_id_array" }};
-
     </body>
 </html>

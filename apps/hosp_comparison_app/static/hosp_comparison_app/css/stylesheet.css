@@ -212,3 +212,8 @@ a, a:hover, a:focus {
             font-size: 10px;
             font-style: italic;
         }
+
+        #hospital_map {
+            margin: 0% 15% 0% 15%;
+            width: 70%;
+        }

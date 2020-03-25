@@ -3,20 +3,43 @@
 <ul>
     Billed charges for {{current_hosp.name}} originally published at {{current_hosp.source}}
 </ul>
+<ul>
+    Note that because not every hospital reports the number of cases used to generate the
+    average billed charge, the statewide averages calculated above are not weighted or credibility adjusted.
+</ul>
+<ul>
+    {% if current_hosp.comment != "" %}
+        {{current_hosp.comment}}
+    {% endif %}
+</ul>
+
+{{ cases_array|json_script:"cases_array" }}
+{{ avg_count_array|json_script:"avg_count_array" }}
+{{ label_array|json_script:"label_array" }}
+{{ hosp_data_array|json_script:"hosp_data_array" }}
+{{ avg_data_array|json_script:"avg_data_array" }}
+
 <script type="text/javascript">
+
+    var cases_array = JSON.parse(document.getElementById('cases_array').textContent);
+    var avg_count_array = JSON.parse(document.getElementById('avg_count_array').textContent);
+    var label_array = JSON.parse(document.getElementById('label_array').textContent);
+    var hosp_data_array = JSON.parse(document.getElementById('hosp_data_array').textContent);
+    var avg_data_array = JSON.parse(document.getElementById('avg_data_array').textContent);
+
     new Chart(document.getElementById("bar-chart"), {
         type: 'bar',
         data: {
-            labels: {{label_array|safe}},
+            labels: label_array,
             datasets: [
                 {
-                    label: "Average Medicare Billed Charges for {{current_hosp.name|safe}}",
+                    label: "Average Billed Charges for {{current_hosp.name|safe}}",
                     backgroundColor: "#3e95cd",
-                    data: {{hosp_data_array|safe}}
+                    data: hosp_data_array
                 }, {
-                    label: "Average Medicare Billed Charges for {{current_hosp.state|safe}}",
+                    label: "Average Billed Charges for {{current_hosp.state|safe}}",
                     backgroundColor: "#6E6E6E",
-                    data: {{avg_data_array|safe}}
+                    data: avg_data_array
                 }
             ]
         },
@@ -38,7 +61,31 @@
                             }
                         }
                     }
+                }],
+                xAxes: [{
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return 'DRG ' + value;
+                        }
+                    }
                 }]
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        return "Average Billed Charge: $" + Math.round(tooltipItem.yLabel).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    },
+                
+                    footer: function(tooltipItem){
+                        if(tooltipItem[0]['datasetIndex'] == 0){
+                            if(cases_array[tooltipItem[0]['index']] > 0){
+                                return "Based on " + cases_array[tooltipItem[0]['index']] + " cases.";
+                            }
+                            return "Case data unavailable. See note below.";
+                        }
+                        return "Based on averages from " + avg_count_array[tooltipItem[0]['index']] + " hospitals.";
+                    }
+                },
             }
         }
     });

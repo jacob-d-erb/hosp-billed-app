@@ -1,0 +1,45 @@
+
+<div id="hospital_map" ></div>
+
+{{ name_array|json_script:"name_array" }}
+{{ long_array|json_script:"long_array" }}
+{{ lat_array|json_script:"lat_array" }}
+{{ cost_array|json_script:"cost_array" }}
+{{ bed_array|json_script:"bed_array" }}
+{{ min_cost|json_script:"min_cost" }}
+{{ max_cost|json_script:"max_cost" }}
+
+
+<script type="text/javascript">
+
+    var min_cost = JSON.parse(document.getElementById('min_cost').textContent);
+    var max_cost = JSON.parse(document.getElementById('max_cost').textContent);
+    
+    var data = [
+        {
+            type: "scattermapbox",
+            text: JSON.parse(document.getElementById('name_array').textContent),
+            lon: JSON.parse(document.getElementById('long_array').textContent),
+            lat: JSON.parse(document.getElementById('lat_array').textContent),
+            marker: {
+                color: JSON.parse(document.getElementById('cost_array').textContent),
+                size: 10,
+                cmin: min_cost,
+                cmax: max_cost,
+                colorbar: {
+                    title: "Average Cost",
+                },
+                colorscale: 'Bluered',
+            },
+            hoverinfo: "text",
+        }
+    ];
+
+    var layout = {
+        dragmode: "zoom",
+        mapbox: { style: "open-street-map", center: { lat: 47.8, lon: -120.7 }, zoom: 5.5 },
+        margin: { r: 0, t: 0, b: 0, l: 0 }
+    }
+
+    Plotly.newPlot("hospital_map", data, layout);
+</script>
