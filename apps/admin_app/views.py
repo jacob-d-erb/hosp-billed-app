@@ -75,9 +75,9 @@ def add_hospital_route(request):
         return redirect("/admin")
     
     try:
-        print(request.POST["hosp_comment_input"])
         newHosp = Hospital.objects.create(
             name=request.POST["hosp_name_input"],
+            beds=float(request.POST["hosp_bed_input"]),
             longitude=float(request.POST["hosp_long_input"]),
             latitude=float(request.POST["hosp_lat_input"]),
             source=request.POST["hosp_source_input"],
@@ -122,9 +122,6 @@ def add_hospital_route(request):
         messages.error(request,"DRG " + str(drg.ms_drg)  + " was not found in Hospital pricing file. Set to 0.")
 
     return redirect("/admin")
-
-# def update_hospital_route(request, hospital_id):
-#     pass
 
 def remove_hospital_route(request):
     try:
