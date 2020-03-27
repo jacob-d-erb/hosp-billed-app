@@ -38,6 +38,9 @@
                         <a href="{% url 'spec_hosp_link' %}">Single Hospital Summary</a>
                     </li>
                     <li>
+                        <a href="{% url 'spec_drg_link' %}">Single DRG Summary</a>
+                    </li>
+                    <li>
                         <a href="{% url 'about_link' %}">About the Data</a>
                     </li>
                 </ul>
@@ -61,15 +64,14 @@
                 </nav>
                 <div class="page_title">About the Data</div>
                 <div class="page_about">
-                    <p>Prior to 2019, hospital chargemasters - a master list of prices the hospital bills for each service - were generally 
+                    <p>Prior to 2019, hospital chargemasters were generally 
                     closely held, and used primarily for negotiating effective payment rates (also called "allowed" charges) with insurance
-                    carriers. Typically the only circumstances in which a patient directly interacts with these chargemasters is if they 
-                    were both uninsured and wealthy, or if they wished to pay in cash. Otherwise, patient payments are routed through an
-                    insurance carrier, which itself pays the discounted allowed charges.</p>
+                    carriers. Typically the only circumstances in which a patient would directly interact with a chargemaster is if they 
+                    were both uninsured and wealthy, or if they wished to pay in cash. Otherwise, patient payments were routed through an
+                    insurance carrier, which itself paid the discounted allowed charges.</p>
                     <p>Effective January 2019, CMS now requires Hospitals to post their chargemasters online, along with "standard" charges billed
-                    for each MS-DRG. This change was made in order to make an incremental step towards price transpareny in an effort to contain
-                    rising medical costs. As of September 2019, there are as yet no specific guidelines for the format of the uploaded data,
-                    nor the fields to include.</p>
+                    for each MS-DRG. This change was made in order to make an incremental step towards price transparency in an effort to contain
+                    rising medical costs.</p>
                     <p>This site is an effort to centralize the data available into a single platform, and further the push towards pricing transparency. </p>
                     <p>NOTE: The charges represented on this site are BILLED charges, which often do not represent the actual out-of-pocket cost for patients.
                     These prices are typically only applicable in cases where the patient is uninsured or wishes to pay in cash rather than use insurance. Even
