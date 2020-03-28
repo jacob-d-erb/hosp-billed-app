@@ -16,6 +16,8 @@ $(document).ready(function () {
         // fade in the overlay
         $('.overlay').addClass('active');
     });
+
+    $("#drg_input").select2();
 });
 
 $('#sd_gen').change(function(event){

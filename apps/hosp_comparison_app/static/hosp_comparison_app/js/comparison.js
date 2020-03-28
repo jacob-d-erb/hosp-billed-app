@@ -19,6 +19,13 @@ $(document).ready(function () {
         // fade in the overlay
         $('.overlay').addClass('active');
     });
+
+    $("#hosp1_input").select2();
+    $("#hosp2_input").select2();
+    $("#hosp3_input").select2();
+    $("#hosp4_input").select2();
+    $("#hosp5_input").select2();
+    $("#drg_input").select2();
 });
 
 

@@ -8,12 +8,11 @@ def comparison_link(request):
     hosp_name_array = []
     hosp_id_array = []
 
-    all_hospitals = Hospital.objects.all().order_by('id')
+    all_hospitals = Hospital.objects.all().order_by('name')
 
     for item in all_hospitals:
         hosp_name_array.append(item.name)
         hosp_id_array.append(item.id)
-
 
     context = {
         "list_hosp": all_hospitals,
@@ -71,7 +70,7 @@ def spec_hosp_link(request):
         DRG_id_array.append(item.id)
         
     context = {
-        "list_hosp": Hospital.objects.all(),
+        "list_hosp": Hospital.objects.all().order_by('name'),
         "DRG_name_array": DRG_name_array,
         "DRG_description_array": DRG_description_array,
         "DRG_id_array": DRG_id_array,
@@ -137,19 +136,11 @@ def spec_drg_route(request):
     filteredHospitals = HospitalDRG.objects.filter(drg_id=DRG.objects.get(id=request.POST["drg_input"])).exclude(avg_allowed_charge=0)
 
     for obj in filteredHospitals:
-        print("In loop")
         cost_array.append(obj.avg_allowed_charge)
-        
         long_array.append(obj.hospital_id.longitude)
         lat_array.append(obj.hospital_id.latitude)
         bed_array.append(obj.hospital_id.beds)
         name_array.append(obj.hospital_id.name)
-    
-    print(cost_array)
-    print(long_array)
-    print(lat_array)
-    print(bed_array)
-    print(name_array)
 
     context= {
         "long_array": long_array,

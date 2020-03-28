@@ -20,6 +20,14 @@ $(document).ready(function () {
         // fade in the overlay
         $('.overlay').addClass('active');
     });
+
+    $("#drg1_input").select2();
+    $("#drg2_input").select2();
+    $("#drg3_input").select2();
+    $("#drg4_input").select2();
+    $("#drg5_input").select2();
+    $("#hosp_input").select2();
+
 });
 
 $('#sh_gen').change(function(event){
