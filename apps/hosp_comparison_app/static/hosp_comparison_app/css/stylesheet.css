@@ -1,219 +1,188 @@
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
-/* Sidebar styling */
-
-.wrapper {
-    display: flex;
-    width: 100%;
-}
-
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
 }
-
-p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
-}
-
-a, a:hover, a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    background: rgb(50,50,50);
-    color: #fff;
-    transition: all 0.3s;
-}
-
-    #sidebar.active {
-        margin-left: -250px;
+    .wrapper {
+        display: flex;
+        width: 100%;
     }
 
-    #sidebar ul.components {
-        padding: 20px 0;
-        border-bottom: 1px solid rgb(255,255,255);
-    }
-    
-        #sidebar ul p {
+/* Sidebar styling */
+
+        #topnav {
+            position: fixed;
+            width: 100%;
+            height: 50px;
+            background: rgb(50,50,50);
             color: #fff;
-            padding: 9px;
-            font-weight: bolder;
         }
-    
-        #sidebar ul li a {
-            padding: 10px;
-            font-size: 1.1em;
-            display: block;
-        }
-
-            #sidebar ul li a:hover {
-                color: #7386D5;
-                background: #fff;
+            #topnav ul {
+                list-style-type: none;
+                width: 470px;
+                display: inline-block;
+                vertical-align: top;
             }
 
-            ul ul a {
-                font-size: 0.9em !important;
-                padding-left: 30px !important;
-                background: #6d7fcc;
+                #topnav ul li {
+                    float: left;
+                }
+
+                    #topnav ul li a, #topnav ul li a:hover, #topnav ul li a:focus {
+                        color: inherit;
+                        text-decoration: none;
+                        transition: all 0.5s;
+                        text-align: center;
+                        display: block;
+                        padding: 15px 18px;
+                        font-size: 18px;
+                    }
+
+                        #topnav ul li a:hover {
+                            color: #7386D5;
+                            background: #fff;
+                        }
+
+            .admin_form {
+                width: 42%;
+                margin: 10px 0px 0px 0%;
+                font-size: 15px;
+                float: right;
             }
 
-/* For smaller screens */
-    @media (max-width: 768px) {
-        #sidebar {
-            margin-left: -250px;
-        }
-        #sidebar.active {
-            margin-left: 0;
-        }
-    }
+                .admin_login_input {
+                    margin: 0px 5px;
+                    padding: 0px 0px 0px 5px;
+                    width: 30%;
+                    border-radius: 5px;
+                    border: 1px solid rgb(100,100,100);
+                }
 
+                .admin_submit {
+                    width: 15%;
+                    border-radius: 5px;
+                    box-shadow: none;
+                    border: 1px solid rgb(100,100,100);
+                    background: rgb(255,255,255);
+                    color:rgb(50,50,50);
+                }
 
-
-/* Overlay styling */
-.overlay {
-    display: none;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 998;
-    opacity: 0;
-    transition: all 0.5s ease-in-out;
-}
-
-.overlay.active {
-    display: block;
-    opacity: 1;
-}
-
-#dismiss {
-    width: 35px;
-    height: 35px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
 
 /* Content styling */
-    #content .btn_gray {
-        background-color: rgb(100,100,100);
-        color: rgb(255,255,255);
-        display: inline-block;
-        vertical-align: top;
-        width: 15%;
+
+        #content {
+            display: inline-block;
+            height: 100vh;
+            min-width: 75%;
+        }
+
+            .page_title {
+                text-align: left;
+                width: 86%;
+                margin: 60px 7% 10px 7%;
+                font-size: 80px;
+                vertical-align: top;
+                display: inline-block;
+                color: rgb(50,50,50);
+                text-shadow: 2px 2px rgb(200,200,200);
+            }
+
+            
+
+            .page_intro {
+                text-align: left;
+                width: 42%;
+                margin: 10px 0% 10px 7%;
+                font-size: 20px;
+                vertical-align: top;
+                display: inline-block;
+                color: rgb(50,50,50);
+            }
+
+            .chart_form {
+                display: inline-block;
+                vertical-align: top;
+                width: 40%;
+                margin: 10px 7% 10px 2%;
+            }
+
+                .input_class {
+                    width: 100%;
+                    text-align: left;
+                    display: block; 
+                }
+
+                .select2-results__options {
+                    font-size: 22px;
+                }
+
+                .select2-selection__rendered {
+                    font-size: 22px;
+                    line-height: 30px !important;
+                }
+
+                .select2-container .select2-selection--single {
+                    height: 30px !important;
+                    margin: 2px 0px;
+                }
+            
+            
+    
+            .graph_container {
+                margin: 10px 10% 0% 10%;
+                width: 80%;
+            }
+
+                .graph_container ul{
+                    font-size: 10px;
+                    font-style: italic;
+                }
+
+            #hospital_map {
+                margin: 0% 5% 0% 5%;
+                width: 90%;
+            }
+
+            .page_about {
+                text-align: left;
+                width: 86%;
+                margin: 10px 7% 10px 7%;
+                font-size: 20px;
+                vertical-align: top;
+                display: inline-block;
+                color: rgb(50,50,50);
+            }
+
+/* For mobile phones */
+
+@media only screen and (max-width: 850px){
+    .page_intro {
+        width: 86%;
+        margin: 10px 7% 10px 7%;
+    }
+
+    .chart_form {
+        width: 86%;
+        margin: 10px 7% 10px 7%;
     }
 
     .admin_form {
-        margin: 5px 0px 0px 42%;
-        font-size: 15px;
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 851px){
+    .page_intro {
+        width: 42%;
+        margin: 10px 0% 10px 7%;
     }
 
-        .admin_login_input {
-            margin: 0px 3% 0px 1%;
-            padding: 0px 0px 0px 5px;
-            width: 30%;
-            border-radius: 5px;
-            border: 1px solid rgb(100,100,100);
-        }
-
-        .admin_submit {
-            width: 15%;
-            border-radius: 5px;
-            box-shadow: none;
-            border: 1px solid rgb(100,100,100);
-            background: rgb(100,100,100);
-            color: rgb(255,255,255);
-        }
-
-    .page_title {
-        text-align: center;
-        width: 70%;
-        margin: 0% 15% 2% 15%;
-        font-size: 80px;
-        vertical-align: top;
-        display: inline-block;
-        color: rgb(100,100,100);
-        text-shadow: 5px 5px rgb(200,200,200);
+    .chart_form {
+        width: 40%;
+        margin: 10px 7% 10px 2%;
     }
 
-    #content .page_intro {
-        text-align: center;
-        width: 70%;
-        margin: 2% 15% 2% 15%;
-        font-size: 20px;
-        vertical-align: top;
-        display: inline-block;
-        color: rgb(100,100,100);
-    }
-
-    .page_about {
-        text-align: left;
-        width: 70%;
-        margin: 2% 15% 2% 15%;
-        font-size: 18px;
-        vertical-align: top;
-        display: inline-block;
-        color: rgb(100,100,100);
-    }
-
-    .dash_sect {
-        border-top: solid 1px rgb(230,230,230);
-        margin: 20px 0px 0px 0px;
-        padding: 10px 0px 0px 0px;
-    }
-
-        .label_class {
-            text-align: right;
-            width: 30%;
-            margin: 0% 5% 0% 10%;
-            font-size: 18px;
-            color: rgb(100,100,100);
-            display: inline-block;
-            vertical-align: top;
-        }
-
-        .input_class {
-            text-align: left;
-            font-size: 15px;
-            display: inline-block;
-            vertical-align: top;
-            margin: 0% 25% 0% 0%;
-            width: 30%;
-        }
-
-        .submit_class {
-            display: block;
-            margin: 0% 0% 0% 35%;
-            font-size: 15px;
-            width: 30%;
-        }
     
-    .graph_container {
-        margin: 2% 10% 0% 10%;
-        width: 80%;
-    }
-
-        .graph_container ul{
-            font-size: 10px;
-            font-style: italic;
-        }
-
-        #hospital_map {
-            margin: 0% 15% 0% 15%;
-            width: 70%;
-        }
+}

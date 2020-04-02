@@ -3,30 +3,25 @@ var DRG_description_array = JSON.parse(document.getElementById('DRG_description_
 var DRG_id_array = JSON.parse(document.getElementById('DRG_id_array').textContent);
 
 $(document).ready(function () {
-    $("#sidebar").mCustomScrollbar({
-        theme: "minimal"
-    });
 
-    $("#dismiss").on('click', function () {
-        // hide sidebar
-        $('#sidebar').addClass('active');
-        // hide overlay
-        $('.overlay').removeClass('active');
+    $("#drg1_input").select2({
+        width: '100%'
     });
-
-    $('#sidebarCollapse').on('click', function () {
-        // open sidebar
-        $('#sidebar').removeClass('active');
-        // fade in the overlay
-        $('.overlay').addClass('active');
+    $("#drg2_input").select2({
+        width: '100%'
     });
-
-    $("#drg1_input").select2();
-    $("#drg2_input").select2();
-    $("#drg3_input").select2();
-    $("#drg4_input").select2();
-    $("#drg5_input").select2();
-    $("#hosp_input").select2();
+    $("#drg3_input").select2({
+        width: '100%'
+    });
+    $("#drg4_input").select2({
+        width: '100%'
+    });
+    $("#drg5_input").select2({
+        width: '100%'
+    });
+    $("#hosp_input").select2({
+        width: '100%'
+    });
 
 });
 

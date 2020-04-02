@@ -18,6 +18,7 @@
 </ul>
 
 {{ cases_array|json_script:"cases_array" }}
+{{ abbreviated_array|json_script:"abbreviated_array" }}
 {{ label_array|json_script:"label_array" }}
 {{ color_array|json_script:"color_array" }}
 {{ data_array|json_script:"data_array" }}
@@ -25,6 +26,7 @@
 <script type="text/javascript">
 
     var cases_array = JSON.parse(document.getElementById('cases_array').textContent);
+    var abbreviated_array = JSON.parse(document.getElementById('abbreviated_array').textContent);
     var label_array = JSON.parse(document.getElementById('label_array').textContent);
     var color_array = JSON.parse(document.getElementById('color_array').textContent);
     var data_array = JSON.parse(document.getElementById('data_array').textContent);
@@ -34,7 +36,7 @@
         type: 'bar',
 
         data: {
-            labels: label_array,
+            labels: abbreviated_array,
             datasets: [{
                 label: "Average Billed Charges",
                 backgroundColor: color_array,
@@ -64,6 +66,9 @@
             },
             tooltips: {
                 callbacks: {
+                    title: function(tooltipItem) {
+                        return label_array[tooltipItem[0]['index']]
+                    },
                     label: function(tooltipItem) {
                         return "Average Billed Charge: $" + Math.round(tooltipItem.yLabel).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     },

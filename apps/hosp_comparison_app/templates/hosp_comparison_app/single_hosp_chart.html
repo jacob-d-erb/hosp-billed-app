@@ -33,11 +33,11 @@
             labels: label_array,
             datasets: [
                 {
-                    label: "Average Billed Charges for {{current_hosp.name|safe}}",
+                    label: "{{hosp_abbreviation|safe}}",
                     backgroundColor: "#3e95cd",
                     data: hosp_data_array
                 }, {
-                    label: "Average Billed Charges for {{current_hosp.state|safe}}",
+                    label: "{{current_hosp.state|safe}}",
                     backgroundColor: "#6E6E6E",
                     data: avg_data_array
                 }
@@ -46,7 +46,7 @@
         options: {
             title: {
                 display: true,
-                text: "Single Hospital Breakdown - {{current_hosp.name|safe}}",
+                text: "{{current_hosp.name|safe}}",
                 fontSize: 20,
             },
             scales: {

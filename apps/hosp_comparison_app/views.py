@@ -25,6 +25,7 @@ def comparison_link(request):
 
 
 def comparison_route(request):
+    abbreviated_array = []
     label_array = []
     color_array = []
     data_array = []
@@ -37,7 +38,12 @@ def comparison_route(request):
 
     for entry in [["hosp1_input", "#3e95cd"], ["hosp2_input", "#8e5ea2"], ["hosp3_input", "#3cba9f"], ["hosp4_input", "#e8c3b9"], ["hosp5_input", "#c45850"]]:
         if request.POST[entry[0]] != "" and request.POST["drg_input"] != "":
-            label_array.append(Hospital.objects.get(id=request.POST[entry[0]]).name)
+            original_name = Hospital.objects.get(id=request.POST[entry[0]]).name
+            abbreviated_name = ""
+            for word in original_name.split():
+                abbreviated_name = abbreviated_name + word[0].upper()
+            abbreviated_array.append(abbreviated_name)
+            label_array.append(original_name)
             color_array.append(entry[1])
             data_array.append(HospitalDRG.objects.get(hospital_id=Hospital.objects.get(id=request.POST[entry[0]]), drg_id=currentDRG).avg_allowed_charge)
             cases_array.append(HospitalDRG.objects.get(hospital_id=Hospital.objects.get(id=request.POST[entry[0]]), drg_id=currentDRG).cases)
@@ -46,6 +52,7 @@ def comparison_route(request):
                 any_notes_flag = 1
 
     context = {
+        "abbreviated_array": abbreviated_array,
         "label_array": label_array,
         "color_array": color_array,
         "data_array": data_array,
@@ -102,6 +109,10 @@ def spec_hosp_route(request):
                 avg_count = 1
             avg_data_array.append(avg_total/avg_count)
             cases_array.append(HospitalDRG.objects.get(hospital_id=currentHosp, drg_id=DRG.objects.get(id=request.POST[entry])).cases)
+    
+    abbreviation = ""
+    for word in currentHosp.name.split():
+        abbreviation = abbreviation + word[0].upper()
 
     context= {
         "label_array": label_array,
@@ -110,6 +121,7 @@ def spec_hosp_route(request):
         "cases_array": cases_array,
         "avg_count_array": avg_count_array,
         "current_hosp": currentHosp,
+        "hosp_abbreviation": abbreviation
     }
     return render(request, "hosp_comparison_app/single_hosp_chart.html", context)
 

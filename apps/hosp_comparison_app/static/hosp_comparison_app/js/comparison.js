@@ -2,30 +2,24 @@ var hosp_name_array = JSON.parse(document.getElementById('hosp_name_array').text
 var hosp_id_array = JSON.parse(document.getElementById('hosp_id_array').textContent);
 
 $(document).ready(function () {
-    $("#sidebar").mCustomScrollbar({
-        theme: "minimal"
+    $("#hosp1_input").select2({
+        width: '100%'
     });
-
-    $("#dismiss").on('click', function () {
-        // hide sidebar
-        $('#sidebar').addClass('active');
-        // hide overlay
-        $('.overlay').removeClass('active');
+    $("#hosp2_input").select2({
+        width: '100%'
     });
-
-    $('#sidebarCollapse').on('click', function () {
-        // open sidebar
-        $('#sidebar').removeClass('active');
-        // fade in the overlay
-        $('.overlay').addClass('active');
+    $("#hosp3_input").select2({
+        width: '100%'
     });
-
-    $("#hosp1_input").select2();
-    $("#hosp2_input").select2();
-    $("#hosp3_input").select2();
-    $("#hosp4_input").select2();
-    $("#hosp5_input").select2();
-    $("#drg_input").select2();
+    $("#hosp4_input").select2({
+        width: '100%'
+    });
+    $("#hosp5_input").select2({
+        width: '100%'
+    });
+    $("#drg_input").select2({
+        width: '100%'
+    });
 });
 
 
