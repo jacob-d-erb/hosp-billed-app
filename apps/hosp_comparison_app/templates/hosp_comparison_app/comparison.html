@@ -34,7 +34,7 @@
             <!-- Navigation -->
             <div id="topnav">
                 <ul >
-                    <li>
+                    <li class="mobile_hidden">
                         <a href="{% url 'comparison_link' %}">Compare</a>
                     </li>
                     <li>
@@ -48,7 +48,7 @@
                     </li>
                 </ul>
 
-                <form action="{% url 'login_route' %}" method="POST" class="admin_form">
+                <form action="{% url 'login_route' %}" method="POST" class="admin_form mobile_hidden">
                     {% csrf_token %}
                     <input id="admin_email" name="admin_email_input" class="admin_login_input" type="text" placeholder="Admin Login"/><!--
                     --><input id="admin_password" name="admin_password_input" class="admin_login_input" type="password" placeholder="Password"/><!--
@@ -114,8 +114,8 @@
             </div>
         </div>
 
-        {{ hosp_name_array|json_script:"hosp_name_array" }};
-        {{ hosp_id_array|json_script:"hosp_id_array" }};
+        {{ hosp_name_array|json_script:"hosp_name_array" }}
+        {{ hosp_id_array|json_script:"hosp_id_array" }}
 
     </body>
 </html>

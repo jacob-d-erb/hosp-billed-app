@@ -36,7 +36,7 @@
                     <li>
                         <a href="{% url 'comparison_link' %}">Compare</a>
                     </li>
-                    <li>
+                    <li class="mobile_hidden">
                         <a href="{% url 'spec_hosp_link' %}">Examine</a>
                     </li>
                     <li>
@@ -47,7 +47,7 @@
                     </li>
                 </ul>
 
-                <form action="{% url 'login_route' %}" method="POST" class="admin_form">
+                <form action="{% url 'login_route' %}" method="POST" class="admin_form mobile_hidden">
                     {% csrf_token %}
                     <input id="admin_email" name="admin_email_input" class="admin_login_input" type="text" placeholder="Admin Login"/><!--
                     --><input id="admin_password" name="admin_password_input" class="admin_login_input" type="password" placeholder="Password"/><!--
@@ -115,9 +115,9 @@
             </div>
         </div>
 
-        {{ DRG_name_array|json_script:"DRG_name_array" }};
-        {{ DRG_description_array|json_script:"DRG_description_array" }};
-        {{ DRG_id_array|json_script:"DRG_id_array" }};
+        {{ DRG_name_array|json_script:"DRG_name_array" }}
+        {{ DRG_description_array|json_script:"DRG_description_array" }}
+        {{ DRG_id_array|json_script:"DRG_id_array" }}
 
     </body>
 </html>

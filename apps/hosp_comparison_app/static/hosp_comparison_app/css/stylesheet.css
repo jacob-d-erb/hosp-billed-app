@@ -24,6 +24,7 @@ body {
                 width: 470px;
                 display: inline-block;
                 vertical-align: top;
+                padding: 0px 4px;
             }
 
                 #topnav ul li {
@@ -37,7 +38,7 @@ body {
                         text-align: center;
                         display: block;
                         padding: 15px 12px;
-                        font-size: 16px;
+                        font-size: 20px;
                     }
 
                         #topnav ul li a:hover {
@@ -82,14 +83,12 @@ body {
                 text-align: left;
                 width: 86%;
                 margin: 60px 7% 10px 7%;
-                font-size: 70px;
+                font-size: 60px;
                 vertical-align: top;
                 display: inline-block;
                 color: rgb(50,50,50);
                 text-shadow: 2px 2px rgb(200,200,200);
             }
-
-            
 
             .page_intro {
                 text-align: left;
@@ -121,7 +120,6 @@ body {
                 .select2-selection__rendered {
                     font-size: 22px;
                     line-height: 30px !important;
-                    z-index: 0;
                 }
 
                 .select2-container .select2-selection--single {
@@ -130,10 +128,9 @@ body {
                 }
             
             
-    
             .graph_container {
-                margin: 10px 10% 0% 10%;
-                width: 80%;
+                margin: 10px 5% 0% 5%;
+                width: 90%;
             }
 
                 .graph_container ul{
@@ -169,7 +166,7 @@ body {
         margin: 10px 7% 10px 7%;
     }
 
-    .admin_form {
+    .mobile_hidden {
         display: none;
     }
 }
@@ -184,6 +181,4 @@ body {
         width: 40%;
         margin: 10px 7% 10px 2%;
     }
-
-    
 }
