@@ -13,6 +13,7 @@
         
         <script src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
         <script src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
@@ -60,17 +61,20 @@
                 <div class="page_title">SURVEY</div>
 
                 <div class="page_intro">
-                    Select a DRG to get an overview of the billed costs throughout the state.
+                    Select a DRG to get an overview of the billed costs throughout the state. Hospitals will only appear on the map if they have posted data for the charge.
                 </div>
 
                 <form class="chart_form" action="{% url 'spec_drg_route' %}" method="POST" id="sd_gen">
                     {% csrf_token %}
+
+                    <input id="window_width" name= "window_width" type="hidden" value=500>
                     <select id="drg_input" name="drg_input" class="input_class">
                         <option value="">Select a Diagnosis Grouping</option>
                         {% for drg in drg_list %}
                             <option value={{drg.id}}>{{drg.ms_drg}} - {{drg.drg_description}}</option>
                         {% endfor %}
                     </select>
+                    
                 </form>
 
                 <div class="graph_container">

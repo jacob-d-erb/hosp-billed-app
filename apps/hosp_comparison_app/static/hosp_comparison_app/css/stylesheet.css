@@ -138,6 +138,11 @@ body {
                     font-style: italic;
                 }
 
+                .js-plotly-plot,
+                .plot-container {
+                    height: 90%
+                }
+
             #hospital_map {
                 margin: 0% 5% 0% 5%;
                 width: 90%;

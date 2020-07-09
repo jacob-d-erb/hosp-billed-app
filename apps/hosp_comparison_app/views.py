@@ -145,7 +145,10 @@ def spec_drg_route(request):
     bed_array = []
     name_array = []
 
-    filteredHospitals = HospitalDRG.objects.filter(drg_id=DRG.objects.get(id=request.POST["drg_input"])).exclude(avg_allowed_charge=0)
+    currentWindowWidth = int(request.POST["window_width"])
+    currentDRG = request.POST["drg_input"]
+    
+    filteredHospitals = HospitalDRG.objects.filter(drg_id=DRG.objects.get(id=currentDRG)).exclude(avg_allowed_charge=0)
 
     for obj in filteredHospitals:
         cost_array.append(obj.avg_allowed_charge)
@@ -153,6 +156,8 @@ def spec_drg_route(request):
         lat_array.append(obj.hospital_id.latitude)
         bed_array.append(obj.hospital_id.beds)
         name_array.append(obj.hospital_id.name)
+    
+    zoom_calc = round((2.1/1600)*currentWindowWidth + 4.8 - 500*2.1/1600, 1)
 
     context= {
         "long_array": long_array,
@@ -162,6 +167,10 @@ def spec_drg_route(request):
         "name_array": name_array,
         "max_cost": max(cost_array),
         "min_cost": min(cost_array),
+        "graph_zoom": round(zoom_calc, 1),
     }
+
+    print(currentWindowWidth)
+    print(zoom_calc)
 
     return render(request, "hosp_comparison_app/single_drg_chart.html", context)

@@ -6,6 +6,10 @@ $(document).ready(function () {
 
 $('#sd_gen').change(function(event){
 
+    var w = window.innerWidth;
+    $('#window_width').val(w);
+    $('.graph_container').height(w/2 + 20);
+
     if($('#drg_input').val()!=""){
         $.ajax({
             url: "/genspecificdrg",
@@ -19,6 +23,10 @@ $('#sd_gen').change(function(event){
 })
 
 $(window).resize(function(){
+
+    var w = window.innerWidth;
+    $('#window_width').val(w);
+    $('.graph_container').height(w/2 + 20);
 
     if($('#drg_input').val()!=""){
         $.ajax({
