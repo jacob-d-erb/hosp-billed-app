@@ -94,4 +94,4 @@ media/
 !**/migrations/__init__.py
 
 # Settings file (added after deployment)
-setttings.py
+settings.py
